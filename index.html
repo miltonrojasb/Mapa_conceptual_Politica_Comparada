@@ -1,0 +1,422 @@
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-sans); background: transparent; }
+
+.container {
+  width: 100%;
+  max-width: 100%;
+  padding: 2rem 1.5rem;
+  background: transparent;
+}
+
+h1 {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.map {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.eje {
+  background: var(--surface-2);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 4px solid var(--border-strong);
+}
+
+.eje:hover {
+  border-left-color: var(--fill-accent);
+  background: var(--surface-1);
+  box-shadow: 0 0 0 1px var(--border-strong);
+}
+
+.eje.expanded {
+  border-left-color: var(--fill-accent);
+}
+
+.eje-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0.5rem;
+}
+
+.eje-numero {
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--text-secondary);
+  min-width: 20px;
+}
+
+.eje-titulo {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.eje-toggle {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.eje.expanded .eje-toggle {
+  transform: rotate(180deg);
+}
+
+.eje-intro {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.eje-contenido {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.eje.expanded .eje-contenido {
+  max-height: 1200px;
+  opacity: 1;
+}
+
+.conceptos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.concepto {
+  background: var(--surface-1);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.concepto-titulo {
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.concepto-desc {
+  color: var(--text-secondary);
+}
+
+.relaciones {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 0.5px solid var(--border);
+}
+
+.relaciones-titulo {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.flujo {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  flex-wrap: wrap;
+}
+
+.paso {
+  background: var(--bg-accent-muted);
+  color: var(--text-accent);
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-weight: 500;
+}
+
+.arrow {
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+.resumen {
+  background: var(--bg-accent);
+  border-left: 3px solid var(--fill-accent);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 2rem;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.resumen-titulo {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+</style>
+
+<div class="container">
+  <h1>Mapa conceptual: Política Comparada</h1>
+
+  <div class="map">
+    <!-- EJE 1 -->
+    <div class="eje" onclick="toggleEje(this)">
+      <div class="eje-header">
+        <span class="eje-numero">1</span>
+        <span class="eje-titulo">Naturaleza, función y epistemología</span>
+        <span class="eje-toggle">▼</span>
+      </div>
+      <div class="eje-intro">¿Qué es la comparación política y para qué sirve?</div>
+      <div class="eje-contenido">
+        <div class="conceptos">
+          <div class="concepto">
+            <div class="concepto-titulo">Función de control empírico</div>
+            <div class="concepto-desc">Verifica o falsea regularidades teóricas, no describe realidades extranjeras.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Sustituto de experimentación</div>
+            <div class="concepto-desc">En ciencias sociales es imposible el método experimental; la comparación lo suple.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Lógica de inferencia</div>
+            <div class="concepto-desc">Genera conocimientos generalizables desde hechos observados → hechos no observados.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Regularidades probabilísticas</div>
+            <div class="concepto-desc">No "leyes" deterministas sino patrones con probabilidades y excepciones.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Saber nomotético vs. ideográfico</div>
+            <div class="concepto-desc">Nomotético: patrones generales. Ideográfico: singularidad del caso.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Teoría normativa vs. empírica</div>
+            <div class="concepto-desc">Normativa: cómo deberían ser. Empírica: cómo son y por qué.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EJE 2 -->
+    <div class="eje" onclick="toggleEje(this)">
+      <div class="eje-header">
+        <span class="eje-numero">2</span>
+        <span class="eje-titulo">Formación conceptual y escala de abstracción</span>
+        <span class="eje-toggle">▼</span>
+      </div>
+      <div class="eje-intro">Cómo construir y clasificar conceptos sin distorsionarlos</div>
+      <div class="eje-contenido">
+        <div class="conceptos">
+          <div class="concepto">
+            <div class="concepto-titulo">Concepto como filtro analítico</div>
+            <div class="concepto-desc">No se observa directamente; es una abstracción que ordena la realidad.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Escala de abstracción (Sartori)</div>
+            <div class="concepto-desc">↑ Alcance ↓ Intensidad. A más casos, menos atributos definitorios.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Estiramiento conceptual</div>
+            <div class="concepto-desc">Patología: sobre-extensión que reduce atributos hasta perder sentido.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Mala clasificación</div>
+            <div class="concepto-desc">Asignar casos a categorías sin compartir propiedades (entes híbridos).</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Tipos ideales vs. reales</div>
+            <div class="concepto-desc">Weber: puros y abstractos (nunca en la realidad empírica). Reales: patrones observados.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Clasificación y tipologías</div>
+            <div class="concepto-desc">División mutuamente excluyente y exhaustiva bajo criterio único.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EJE 3 -->
+    <div class="eje" onclick="toggleEje(this)">
+      <div class="eje-header">
+        <span class="eje-numero">3</span>
+        <span class="eje-titulo">Operacionalización y matriz de datos</span>
+        <span class="eje-toggle">▼</span>
+      </div>
+      <div class="eje-intro">De conceptos abstractos a datos observables</div>
+      <div class="eje-contenido">
+        <div class="conceptos">
+          <div class="concepto">
+            <div class="concepto-titulo">Operacionalización (Lazarsfeld)</div>
+            <div class="concepto-desc">Dar contenido empírico a constructos no observables directamente.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Cuatro pasos secuenciales</div>
+            <div class="concepto-desc">1. Concepto → 2. Dimensiones → 3. Indicadores → 4. Índices.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Dimensiones</div>
+            <div class="concepto-desc">Descomposición del concepto en componentes teóricos manejables.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Indicadores</div>
+            <div class="concepto-desc">Conceptos concretos y observables que representan la dimensión.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Índices</div>
+            <div class="concepto-desc">Síntesis cuantitativa o cualitativa del fenómeno en su grado.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Matriz de datos</div>
+            <div class="concepto-desc">Filas = casos, Columnas = variables, Celdas = valores observados.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EJE 4 -->
+    <div class="eje" onclick="toggleEje(this)">
+      <div class="eje-header">
+        <span class="eje-numero">4</span>
+        <span class="eje-titulo">Diseños de investigación comparativa</span>
+        <span class="eje-toggle">▼</span>
+      </div>
+      <div class="eje-intro">Estrategias para comparar cuando los casos son pocos</div>
+      <div class="eje-contenido">
+        <div class="conceptos">
+          <div class="concepto">
+            <div class="concepto-titulo">Dilema de Lijphart</div>
+            <div class="concepto-desc">Muchas variables, pocos casos (N pequeño). Explicaciones sobre-determinadas.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">MSSD (Most Similar)</div>
+            <div class="concepto-desc">Casos parecidos, resultados distintos → aisla variable causal única. Validez interna.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">MDSD (Most Different)</div>
+            <div class="concepto-desc">Casos heterogéneos, resultado igual → aisla factor común. Validez externa.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Estudios de caso (N=1)</div>
+            <div class="concepto-desc">Ideográfico, heurístico, interpretativo, desviador, crucial. Cada tipo tiene propósito teórico.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Estrategias por N espacial</div>
+            <div class="concepto-desc">N=1 caso, N=2 binario, N=3-6 área, N>6 multicaso (lógica cuantitativa).</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Soluciones al dilema</div>
+            <div class="concepto-desc">Reducir variables, parsimonia teórica, aumentar casos, seleccionar comparables.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EJE 5 -->
+    <div class="eje" onclick="toggleEje(this)">
+      <div class="eje-header">
+        <span class="eje-numero">5</span>
+        <span class="eje-titulo">Dimensión temporal y dinámicas de cambio</span>
+        <span class="eje-toggle">▼</span>
+      </div>
+      <div class="eje-intro">Cómo analizar transformaciones políticas en el tiempo</div>
+      <div class="eje-contenido">
+        <div class="conceptos">
+          <div class="concepto">
+            <div class="concepto-titulo">Sincrónico vs. diacrónico</div>
+            <div class="concepto-desc">Sincrónico: congela tiempo para comparar casos. Diacrónico: sigue cambio en arco temporal.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Fases</div>
+            <div class="concepto-desc">Subdivisiones cronológicas que delimitan etapas del proceso político.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Secuencias</div>
+            <div class="concepto-desc">Etapas concatenadas por causa-efecto donde una fase condiciona la siguiente.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Umbrales (Deutsch, Rokkan)</div>
+            <div class="concepto-desc">Puntos de inflexión donde acumulación cuantitativa → transformación cualitativa.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Path dependency</div>
+            <div class="concepto-desc">Decisiones en coyunturas críticas → encauzan desarrollo → mecanismos de autorefuerzo.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Multicolinealidad</div>
+            <div class="concepto-desc">Múltiples procesos varían en paralelo → dificulta relación causal. Combinar planos de análisis.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EJE 6 -->
+    <div class="eje" onclick="toggleEje(this)">
+      <div class="eje-header">
+        <span class="eje-numero">6</span>
+        <span class="eje-titulo">Enfoques teóricos principales</span>
+        <span class="eje-toggle">▼</span>
+      </div>
+      <div class="eje-intro">Marcos explicativos para la política comparada</div>
+      <div class="eje-contenido">
+        <div class="conceptos">
+          <div class="concepto">
+            <div class="concepto-titulo">Estructuralismo y modernización</div>
+            <div class="concepto-desc">Estructuras económicas, sociales, funcionales o culturales determinan comportamientos y resultados.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Teoría de la Elección Racional (TER)</div>
+            <div class="concepto-desc">Actores egoístas y autorreflexivos maximizan utilidad esperada según costos y beneficios.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Nuevo Institucionalismo</div>
+            <div class="concepto-desc">Instituciones como "reglas del juego" que constriñen y estructuran comportamiento de agentes.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">Institucionalismo Histórico</div>
+            <div class="concepto-desc">Preferencias endógenas (construidas históricamente); secuencias, coyunturas críticas, path dependency.</div>
+          </div>
+          <div class="concepto">
+            <div class="concepto-titulo">TER + Institucional</div>
+            <div class="concepto-desc">Instituciones como equilibrio social; cambio vía "equilibrios puntuados" (altos costos de transacción).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="resumen">
+    <div class="resumen-titulo">Cómo usar este mapa</div>
+    <div>Haz clic en cada eje para expandir conceptos clave. Este resumen cubre la primera parte del curso: cómo pensar y diseñar investigación comparada. Los siguientes pasos serán aplicar estos marcos a casos empíricos reales, operacionalizar variables y construir argumentos causales rigurosos.</div>
+  </div>
+</div>
+
+<script>
+function toggleEje(element) {
+  element.classList.toggle('expanded');
+}
+</script>
