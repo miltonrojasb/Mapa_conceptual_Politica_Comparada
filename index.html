@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa Conceptual: Política Comparada</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --eje-1: #185FA5;
+      --eje-2: #D85A30;
+      --eje-3: #639922;
+      --eje-4: #B85FA5;
+      --eje-5: #BA7517;
+      --eje-6: #0F6E56;
+      --accent: #185FA5;
+      --bg-light: #F8FAFB;
+      --bg-white: #FFFFFF;
+      --text-primary: #1F2937;
+      --text-secondary: #6B7280;
+      --text-tertiary: #9CA3AF;
+      --border-color: #E5E7EB;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 2rem 0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid rgba(0,0,0,0.05);
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .header p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .badge-group {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--bg-white);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .badge::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+
+    .badge-1::before { background-color: var(--eje-1); }
+    .badge-2::before { background-color: var(--eje-2); }
+    .badge-3::before { background-color: var(--eje-3); }
+    .badge-4::before { background-color: var(--eje-4); }
+    .badge-5::before { background-color: var(--eje-5); }
+    .badge-6::before { background-color: var(--eje-6); }
+
+    .map {
+      display: grid;
+      gap: 1.5rem;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .eje {
+      background: var(--bg-white);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      border-left: 5px solid transparent;
+    }
+
+    .eje-1 { border-left-color: var(--eje-1); }
+    .eje-2 { border-left-color: var(--eje-2); }
+    .eje-3 { border-left-color: var(--eje-3); }
+    .eje-4 { border-left-color: var(--eje-4); }
+    .eje-5 { border-left-color: var(--eje-5); }
+    .eje-6 { border-left-color: var(--eje-6); }
+
+    .eje:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .eje.expanded {
+      box-shadow: var(--shadow-md);
+    }
+
+    .eje-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .eje:hover .eje-header {
+      background: var(--bg-light);
+    }
+
+    .eje-numero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .eje-1 .eje-numero { background-color: var(--eje-1); }
+    .eje-2 .eje-numero { background-color: var(--eje-2); }
+    .eje-3 .eje-numero { background-color: var(--eje-3); }
+    .eje-4 .eje-numero { background-color: var(--eje-4); }
+    .eje-5 .eje-numero { background-color: var(--eje-5); }
+    .eje-6 .eje-numero { background-color: var(--eje-6); }
+
+    .eje-titulo-section {
+      flex: 1;
+    }
+
+    .eje-titulo {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.35rem;
+    }
+
+    .eje-intro {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .eje-toggle {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background: var(--bg-light);
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      font-size: 0.8rem;
+    }
+
+    .eje:hover .eje-toggle {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .eje.expanded .eje-toggle {
+      background: var(--accent);
+      color: white;
+      transform: rotate(180deg);
+    }
+
+    .eje-contenido {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+    }
+
+    .eje.expanded .eje-contenido {
+      max-height: 1500px;
+      opacity: 1;
+    }
+
+    .eje-contenido-inner {
+      padding: 0 1.5rem 1.5rem;
+    }
+
+    .conceptos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .concepto {
+      background: var(--bg-light);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem;
+      transition: all 0.2s;
+    }
+
+    .concepto:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 8px rgba(24, 95, 165, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .concepto-titulo {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .concepto-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .resumen {
+      background: linear-gradient(135deg, #E6F1FB 0%, #F0F9FC 100%);
+      border: 2px solid #185FA5;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .resumen-titulo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .resumen-titulo::before {
+      content: '💡';
+      font-size: 1.3rem;
+    }
+
+    .resumen-desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 2px solid var(--border-color);
+    }
+
+    .stat-card {
+      background: var(--bg-white);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.5rem;
+      }
+
+      .badge-group {
+        gap: 0.5rem;
+      }
+
+      .eje-header {
+        padding: 1rem;
+      }
+
+      .conceptos {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .toc {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .toc-item {
+      padding: 0.75rem;
+      background: var(--bg-white);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toc-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎓 Mapa Conceptual de Política Comparada</h1>
+      <p>Primera parte del curso: Fundamentos metodológicos y teóricos</p>
+      <div class="badge-group">
+        <span class="badge badge-1">Epistemología</span>
+        <span class="badge badge-2">Conceptos</span>
+        <span class="badge badge-3">Operacionalización</span>
+        <span class="badge badge-4">Diseños</span>
+        <span class="badge badge-5">Temporalidad</span>
+        <span class="badge badge-6">Teoría</span>
+      </div>
+    </div>
+
+    <div class="toc">
+      <div class="toc-item"><span class="toc-indicator" style="background: var(--eje-1);"></span>Eje 1</div>
+      <div class="toc-item"><span class="toc-indicator" style="background: var(--eje-2);"></span>Eje 2</div>
+      <div class="toc-item"><span class="toc-indicator" style="background: var(--eje-3);"></span>Eje 3</div>
+      <div class="toc-item"><span class="toc-indicator" style="background: var(--eje-4);"></span>Eje 4</div>
+      <div class="toc-item"><span class="toc-indicator" style="background: var(--eje-5);"></span>Eje 5</div>
+      <div class="toc-item"><span class="toc-indicator" style="background: var(--eje-6);"></span>Eje 6</div>
+    </div>
+
+    <div class="map">
+      <!-- EJE 1 -->
+      <div class="eje eje-1" onclick="toggleEje(this)">
+        <div class="eje-header">
+          <div class="eje-numero">1</div>
+          <div class="eje-titulo-section">
+            <div class="eje-titulo">Naturaleza, función y epistemología</div>
+            <div class="eje-intro">¿Qué es la comparación política y para qué sirve?</div>
+          </div>
+          <div class="eje-toggle">⌄</div>
+        </div>
+        <div class="eje-contenido">
+          <div class="eje-contenido-inner">
+            <div class="conceptos">
+              <div class="concepto">
+                <div class="concepto-titulo">Función de control empírico</div>
+                <div class="concepto-desc">Verifica o falsea regularidades teóricas, no describe realidades extranjeras.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Sustituto de experimentación</div>
+                <div class="concepto-desc">En ciencias sociales es imposible el método experimental; la comparación lo suple.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Lógica de inferencia</div>
+                <div class="concepto-desc">Genera conocimientos generalizables desde hechos observados → hechos no observados.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Regularidades probabilísticas</div>
+                <div class="concepto-desc">No "leyes" deterministas sino patrones con probabilidades y excepciones.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Saber nomotético vs. ideográfico</div>
+                <div class="concepto-desc">Nomotético: patrones generales. Ideográfico: singularidad del caso.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Teoría normativa vs. empírica</div>
+                <div class="concepto-desc">Normativa: cómo deberían ser. Empírica: cómo son y por qué.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJE 2 -->
+      <div class="eje eje-2" onclick="toggleEje(this)">
+        <div class="eje-header">
+          <div class="eje-numero">2</div>
+          <div class="eje-titulo-section">
+            <div class="eje-titulo">Formación conceptual y escala de abstracción</div>
+            <div class="eje-intro">Cómo construir y clasificar conceptos sin distorsionarlos</div>
+          </div>
+          <div class="eje-toggle">⌄</div>
+        </div>
+        <div class="eje-contenido">
+          <div class="eje-contenido-inner">
+            <div class="conceptos">
+              <div class="concepto">
+                <div class="concepto-titulo">Concepto como filtro analítico</div>
+                <div class="concepto-desc">No se observa directamente; es una abstracción que ordena la realidad.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Escala de abstracción (Sartori)</div>
+                <div class="concepto-desc">↑ Alcance ↓ Intensidad. A más casos, menos atributos definitorios.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Estiramiento conceptual</div>
+                <div class="concepto-desc">Patología: sobre-extensión que reduce atributos hasta perder sentido.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Mala clasificación</div>
+                <div class="concepto-desc">Asignar casos a categorías sin compartir propiedades (entes híbridos).</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Tipos ideales vs. reales</div>
+                <div class="concepto-desc">Weber: puros y abstractos. Reales: patrones observados empíricamente.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Clasificación y tipologías</div>
+                <div class="concepto-desc">División mutuamente excluyente y exhaustiva bajo criterio único.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJE 3 -->
+      <div class="eje eje-3" onclick="toggleEje(this)">
+        <div class="eje-header">
+          <div class="eje-numero">3</div>
+          <div class="eje-titulo-section">
+            <div class="eje-titulo">Operacionalización y matriz de datos</div>
+            <div class="eje-intro">De conceptos abstractos a datos observables</div>
+          </div>
+          <div class="eje-toggle">⌄</div>
+        </div>
+        <div class="eje-contenido">
+          <div class="eje-contenido-inner">
+            <div class="conceptos">
+              <div class="concepto">
+                <div class="concepto-titulo">Operacionalización (Lazarsfeld)</div>
+                <div class="concepto-desc">Dar contenido empírico a constructos no observables directamente.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Cuatro pasos secuenciales</div>
+                <div class="concepto-desc">1. Concepto → 2. Dimensiones → 3. Indicadores → 4. Índices.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Dimensiones</div>
+                <div class="concepto-desc">Descomposición del concepto en componentes teóricos manejables.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Indicadores</div>
+                <div class="concepto-desc">Conceptos concretos y observables que representan la dimensión.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Índices</div>
+                <div class="concepto-desc">Síntesis cuantitativa o cualitativa del fenómeno en su grado.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Matriz de datos</div>
+                <div class="concepto-desc">Filas = casos, Columnas = variables, Celdas = valores observados.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJE 4 -->
+      <div class="eje eje-4" onclick="toggleEje(this)">
+        <div class="eje-header">
+          <div class="eje-numero">4</div>
+          <div class="eje-titulo-section">
+            <div class="eje-titulo">Diseños de investigación comparativa</div>
+            <div class="eje-intro">Estrategias para comparar cuando los casos son pocos</div>
+          </div>
+          <div class="eje-toggle">⌄</div>
+        </div>
+        <div class="eje-contenido">
+          <div class="eje-contenido-inner">
+            <div class="conceptos">
+              <div class="concepto">
+                <div class="concepto-titulo">Dilema de Lijphart</div>
+                <div class="concepto-desc">Muchas variables, pocos casos (N pequeño). Explicaciones sobre-determinadas.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">MSSD (Most Similar)</div>
+                <div class="concepto-desc">Casos parecidos, resultados distintos → aisla variable causal. Validez interna.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">MDSD (Most Different)</div>
+                <div class="concepto-desc">Casos heterogéneos, resultado igual → aisla factor común. Validez externa.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Estudios de caso (N=1)</div>
+                <div class="concepto-desc">Ideográfico, heurístico, interpretativo, desviador, crucial. Cada tipo con propósito.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Estrategias por N espacial</div>
+                <div class="concepto-desc">N=1 caso, N=2 binario, N=3-6 área, N>6 multicaso con lógica cuantitativa.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Soluciones al dilema</div>
+                <div class="concepto-desc">Reducir variables, parsimonia teórica, aumentar casos, seleccionar comparables.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJE 5 -->
+      <div class="eje eje-5" onclick="toggleEje(this)">
+        <div class="eje-header">
+          <div class="eje-numero">5</div>
+          <div class="eje-titulo-section">
+            <div class="eje-titulo">Dimensión temporal y dinámicas de cambio</div>
+            <div class="eje-intro">Cómo analizar transformaciones políticas en el tiempo</div>
+          </div>
+          <div class="eje-toggle">⌄</div>
+        </div>
+        <div class="eje-contenido">
+          <div class="eje-contenido-inner">
+            <div class="conceptos">
+              <div class="concepto">
+                <div class="concepto-titulo">Sincrónico vs. diacrónico</div>
+                <div class="concepto-desc">Sincrónico: congela tiempo para comparar. Diacrónico: sigue cambio temporal.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Fases</div>
+                <div class="concepto-desc">Subdivisiones cronológicas que delimitan etapas del proceso político.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Secuencias</div>
+                <div class="concepto-desc">Etapas concatenadas por causa-efecto donde una fase condiciona la siguiente.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Umbrales (Deutsch, Rokkan)</div>
+                <div class="concepto-desc">Puntos de inflexión: acumulación cuantitativa → transformación cualitativa.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Path dependency</div>
+                <div class="concepto-desc">Decisiones en coyunturas críticas encauzan desarrollo con autorefuerzo.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Multicolinealidad</div>
+                <div class="concepto-desc">Múltiples procesos en paralelo dificultan relación causal. Combinar planos.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJE 6 -->
+      <div class="eje eje-6" onclick="toggleEje(this)">
+        <div class="eje-header">
+          <div class="eje-numero">6</div>
+          <div class="eje-titulo-section">
+            <div class="eje-titulo">Enfoques teóricos principales</div>
+            <div class="eje-intro">Marcos explicativos para la política comparada</div>
+          </div>
+          <div class="eje-toggle">⌄</div>
+        </div>
+        <div class="eje-contenido">
+          <div class="eje-contenido-inner">
+            <div class="conceptos">
+              <div class="concepto">
+                <div class="concepto-titulo">Estructuralismo y modernización</div>
+                <div class="concepto-desc">Estructuras determinan comportamientos y resultados políticos.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Teoría de la Elección Racional (TER)</div>
+                <div class="concepto-desc">Actores maximizan utilidad según costos y beneficios percibidos.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Nuevo Institucionalismo</div>
+                <div class="concepto-desc">Instituciones como "reglas del juego" que estructuran comportamiento.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">Institucionalismo Histórico</div>
+                <div class="concepto-desc">Preferencias endógenas, path dependency, coyunturas críticas importan.</div>
+              </div>
+              <div class="concepto">
+                <div class="concepto-titulo">TER + Institucional</div>
+                <div class="concepto-desc">Instituciones como equilibrio; cambio vía equilibrios puntuados.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Ejes temáticos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">30+</div>
+        <div class="stat-label">Conceptos clave</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Niveles de análisis</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">Aplicaciones</div>
+      </div>
+    </div>
+
+    <div class="resumen">
+      <div class="resumen-titulo">Cómo usar este mapa</div>
+      <div class="resumen-desc">
+        Haz clic en cualquier eje para expandir sus conceptos clave. Este mapa cubre la <strong>primera parte del curso</strong>: cómo pensar y diseñar investigación comparada desde fundamentos. Los siguientes pasos serán aplicar estos marcos a casos empíricos reales, operacionalizar variables con rigor y construir argumentos causales robustos sobre democracia subnacional, instituciones electorales y dinámicas políticas en Colombia y América Latina.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleEje(element) {
+      element.classList.toggle('expanded');
+      
+      // Smooth scroll para que el eje expandido quede visible
+      if (element.classList.contains('expanded')) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+      }
+    }
+
+    // Abrir todos los ejes con Ctrl+A (útil para impresión)
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 'a') {
+        e.preventDefault();
+        document.querySelectorAll('.eje').forEach(eje => {
+          eje.classList.add('expanded');
+        });
+      }
+    });
+
+    // Cerrar todos con Ctrl+D
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 'd') {
+        e.preventDefault();
+        document.querySelectorAll('.eje').forEach(eje => {
+          eje.classList.remove('expanded');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
